@@ -1,0 +1,94 @@
+
+
+Getting Started
+===============
+
+Open "ReliableWorkQueue" in com.bronto.ncsu.redis.queue. This will be were you
+do your work. The initial implementation provided is the naive one discussed in
+the presentation. It uses a Redis list to implement a basic, non-reliable
+queue. This initial implementations will pass a few of the provided tests. It is
+your job to make it a "reliable" implementation that passes as many of the
+provided tests as possible.
+
+Do not attempt to address all of the failing tests at once. Instead, address the
+failures one at a time to iteratively improve your implementation. It is
+recommended that you fix the tests in the order they fail. They are ordered
+purposefully to guide your implementation from naive to complete.
+
+
+Running Tests
+=============
+
+To execute the tests run the "RunTests" class in com.bronto.ncsu.redis.queue as
+a Java Application. If tests fail because of anything resembling a ConnectException
+see the sections on "Starting a Redis Server" or "Changing Redis Server".
+
+
+Redis Tips
+==========
+
+The commands provided by Redis are documented at http://redis.io/commands/.
+
+The number of commands can be daunting. Use the navigation at the top to explore
+commands for "Lists", "Hashes", "Sets" and "Sorted Sets". These are your core
+data structures. The following commands in particular are a good starting set,
+
+  * Lists - LPUSH, RPOP, LLEN
+  * Hashes - HSET, HGET, HLEN
+  * Sets - SADD, SREM, SISMEMBER, SCARD
+  * Sorted Sets - ZADD, ZREM, ZSCORE, ZRANGEBYSCORE, ZCARD
+
+Many of the other commands available for lists, hashes, sets and sorted sets
+will be variants of these.
+
+Fixing some of the later tests will require your implementation to be robust
+against concurrent modifications. You may find the commands under "Transactions"
+and "Scripting" useful to resolve these failing tests.
+
+
+Redis Command Line
+==================
+
+The Redis command line is an excellent way to get familiar with Redis. If you
+have Redis installed you can use the command line by executing
+
+    redis-cli
+
+This will drop you into an interactive shell where you can execute commands as
+they are given in the documentation.
+
+
+Implementation Hints
+====================
+
+You can get the current time expressed in milliseconds since the epoch (Midnight
+Jan 1 1970 UTC) by calling System.currentTimeMillis().
+
+
+Starting a Redis Server
+=======================
+
+If you have installed Redis on your local machine you can start the server using
+the following command,
+
+    redis-server --save ''
+
+This will run the server in the foreground. If you'd prefer to run the server in
+the background,
+
+    redis-server --save '' --daemonize yes
+
+If you get an error such as,
+
+    [37803] 11 Feb 18:35:25.243 # Creating Server TCP listening socket *:6379: bind: Address already in use
+
+then a Redis instance is already running and you should be good to go.
+
+
+Changing Redis Server
+=====================
+
+By default the tests will attempt to use a Redis server running on your own
+machine. If you need to change these connection settings to point to a different
+Redis instance open "TestBase" in com.bronto.ncsu.redis.tests and edit the
+REDIS_HOST and REDIS_PORT constants as necessary.
